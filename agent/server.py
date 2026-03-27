@@ -33,6 +33,7 @@ from .middleware import (
     ensure_no_empty_msg,
     open_pr_if_needed,
 )
+from .observability import get_tracer
 from .prompt import construct_system_prompt
 from .tools import (
     commit_and_open_pr,
@@ -65,6 +66,15 @@ client = get_client()
 SANDBOX_CREATING = "__creating__"
 SANDBOX_CREATION_TIMEOUT = 180
 SANDBOX_POLL_INTERVAL = 1.0
+
+# Initialize observability backends (LangSmith, MLflow, etc.)
+tracer = get_tracer()
+init_results = tracer.initialize()
+for backend_name, success in init_results.items():
+    if success:
+        logger.info("%s tracing initialized successfully", backend_name)
+    else:
+        logger.warning("%s tracing initialization failed", backend_name)
 
 from .utils.agents_md import read_agents_md_in_sandbox
 from .utils.github import (

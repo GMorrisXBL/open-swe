@@ -32,6 +32,10 @@ dev = [
     "pytest-asyncio>=0.21.0",
     "ruff>=0.1.0",
 ]
+mlflow = [
+    "mlflow>=2.15.0",
+    "databricks-sdk>=0.30.0",
+]
 
 [build-system]
 requires = ["hatchling"]
